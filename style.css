@@ -1,0 +1,25 @@
+html, body
+{
+    height: 100%;
+}
+
+body
+{
+    width:100%;
+    padding:0;
+    margin: 0;
+}
+
+.circle circle
+{
+    fill-opacity: 0;
+    stroke-width: 11.5px;
+    stroke-opacity: 1;
+    stroke: grey;
+}
+
+.circle text
+{
+    text-align: center;
+    vertical-align: middle;
+}
