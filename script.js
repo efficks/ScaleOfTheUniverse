@@ -1,5 +1,8 @@
 var objects = [
-    {url:"images/human.png",size:176}
+    {url:"images/human2.png",size:176, desc:"Human"},
+    {url:"images/iss.png",size:10900, desc:"International Space Station"},
+    {url:"images/earth.png",size:1274200000, desc:"Earth"},
+    {url:"images/universe.png",size:8.8e28, desc:"Observable universe"}
 ];
 var circles = [
 ];
@@ -58,7 +61,7 @@ function zoomed() {
   }
 
 var zoom = d3.zoom()
-    .scaleExtent([1e-35, 10e23])
+    .scaleExtent([8.8e-28, 10e23])
     .on("zoom", zoomed);
 
 var svg = d3.select("body")
@@ -85,6 +88,17 @@ var g = rootGroup.selectAll("g.circle")
     .attr("transform",function(d){
         return "scale("+d.size+")";
     })
+    .attr("opacity",function(o){
+        size = o.size;
+        if(size < 1)
+        {
+            return Math.max(0,opacityDown(size));
+        }
+        else
+        {
+            return Math.max(0,opacityUp(size));
+        }
+    })
     .each(drawCircle);
 
 function drawCircle(d) {
@@ -93,10 +107,11 @@ function drawCircle(d) {
     d3.select(this).append("circle")
         .attr("cx", function(d){return 0;})
         .attr("cy", function(d){return 0;})
-        .attr("r", function(d){return "100px";});
+        .attr("r", function(d){return "150px";});
 
     d3.select(this).append("text")
-        .attr("y", 120)
+        .attr("y", 150)
+        .attr("x", 100)
         .text(function(d){
             return f(d.size);
         });
@@ -106,13 +121,35 @@ var groupObjects = rootGroup.selectAll("g.object")
     .data(objects)
     .enter().append("g")
     .attr("class","object")
+    .attr("transform",function(d){
+        return "scale("+d.size/100+")";
+    })
+    .attr("opacity",function(o){
+        size = o.size/100;
+        if(size < 1)
+        {
+            return Math.max(0,opacityDown(size));
+        }
+        else
+        {
+            return Math.max(0,opacityUp(size));
+        }
+    })
     .each(drawObject);
 
 function drawObject(d) {
     d3.select(this).append("svg:image")
         .attr("xlink:href", function(d){return d.url;})
-        .attr("x", function(d){return -200;})
-        .attr("y", function(d){return -200;})
-        .attr("height", function(d){return 100;})
-        .attr("width", function(d){return 100;});
+        .attr("y", function(d){return -100;})
+        .attr("x", function(d){return -300;})
+        .attr("height", function(d){return 300;})
+        .attr("width", function(d){return 300;});
+    
+    d3.select(this).append("text")
+        .attr("class", "description")
+        .attr("y", 220)
+        .attr("x", -150)
+        .text(function(d){
+            return d.desc;
+        });
 }

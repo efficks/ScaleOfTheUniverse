@@ -23,3 +23,8 @@ body
     text-align: center;
     vertical-align: middle;
 }
+
+.object text.description
+{
+    text-anchor: middle;
+}
